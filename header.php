@@ -21,8 +21,23 @@
     <?php if ( function_exists( 'gtm4wp_the_gtm_tag' ) ) { gtm4wp_the_gtm_tag(); } ?>
 
     <?php if (is_front_page()) { ?>
-        
-        <header class="header-home">
+
+        <!-- Home Header Img Loop -->
+        <?php
+            $header_arg = array(
+                "post_type" => 'header_image',
+                "posts_per_page" => 1,
+                'orderby' => 'rand'
+            );
+
+            $header_q = new WP_Query($header_arg);
+            if($header_q->have_posts()) : while($header_q->have_posts()) : $header_q->the_post();
+                $background = get_field('images');
+
+            endwhile; endif; 
+        ?>
+
+        <header class="header-home" style="background-image: url(<?php echo $background; ?>);">
             <div class="overlay"></div>
             <div class="logos">
                 <img class="alex-logo" src="<?php echo bloginfo('template_url');?>/inc/imgs/alex-logo.png" alt="Alex Sharke">
